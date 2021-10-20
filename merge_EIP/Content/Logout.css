@@ -1,0 +1,129 @@
+﻿:root {
+    --mainColor: rgb(53 75 105);
+    --mainColorhover: rgb(80 113 158);
+}
+
+/* 畫面高度 */
+html, body {
+    height: 100%;
+}
+/* 讓畫面垂直置中 */
+body {
+    align-items: center;
+    display: flex;
+    background-image: url(img/office.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center
+}
+
+.con {
+    margin: 0 auto;
+    display: flex;
+    float: none;
+}
+
+/* 打卡鈕尺寸 */
+.button {
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.btn-FB {
+    background-color: var(--mainColor);
+/*    border: solid 1px #3b5998;*/
+    color: white;
+}
+
+.btn-FB:hover {
+    background-color: var(--mainColorhover);
+/*  border: solid 1px dimgrey;*/
+/*    color: white;*/
+}
+
+/* 取消連結底線 */
+a:hover {
+    text-decoration: none
+}
+
+
+/* 跳轉圖示 */
+.loader {
+    text-align: center;
+}
+
+.loading-3 {
+    position: relative;
+}
+
+    .loading-3 i {
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #333;
+        position: absolute;
+    }
+
+        .loading-3 i:nth-child(1) {
+            top: 25px;
+            left: 0;
+            animation: loading-3 1s ease 0s infinite;
+        }
+
+        .loading-3 i:nth-child(2) {
+            top: 17px;
+            left: 17px;
+            animation: loading-3 1s ease -0.12s infinite;
+        }
+
+        .loading-3 i:nth-child(3) {
+            top: 0;
+            left: 25px;
+            animation: loading-3 1s ease -0.24s infinite;
+        }
+
+        .loading-3 i:nth-child(4) {
+            top: -17px;
+            left: 17px;
+            animation: loading-3 1s ease -0.36s infinite;
+        }
+
+        .loading-3 i:nth-child(5) {
+            top: -25px;
+            left: 0;
+            animation: loading-3 1s ease -0.48s infinite;
+        }
+
+        .loading-3 i:nth-child(6) {
+            top: -17px;
+            left: -17px;
+            animation: loading-3 1s ease -0.6s infinite;
+        }
+
+        .loading-3 i:nth-child(7) {
+            top: 0;
+            left: -25px;
+            animation: loading-3 1s ease -0.72s infinite;
+        }
+
+        .loading-3 i:nth-child(8) {
+            top: 17px;
+            left: -17px;
+            animation: loading-3 1s ease -0.84s infinite;
+        }
+
+@keyframes loading-3 {
+    50% {
+        transform: scale(0.4);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

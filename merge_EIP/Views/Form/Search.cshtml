@@ -1,0 +1,233 @@
+﻿@model merge_EIP.Models.Search
+@{
+    ViewBag.Title = "表單審核查詢";
+}
+
+<div class="container">
+    <br />
+    <h2 class="font-weight-bold">申請表單查詢</h2>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-FB" onclick="showT1()">假單</button>
+        <button type="button" class="btn btn-FB" onclick="showT2()">加班單</button>
+        <button type="button" class="btn btn-FB" onclick="showT3()">經費申請單</button>
+        <button type="button" class="btn btn-FB" onclick="showT4()">補卡單</button>
+    </div>
+    <br />
+    <br />
+
+
+    <div id="showT1">
+        <h3>假單查詢</h3>
+        <div class="table-responsive">
+            <table class="table" id="sort-table">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">員工編號</th>
+                        <th data-sortable="true">姓名</th>
+                        <th data-sortable="true">假別</th>
+                        <th data-sortable="true">開始時間</th>
+                        <th data-sortable="true">結束時間</th>
+                        <th data-sortable="true">合計差假</th>
+                        <th data-sortable="true">理由</th>
+                        <th data-sortable="true">狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.leave)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.startDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.endDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.totalDay)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="showT2" style="display:none">
+        <h3>加班單查詢</h3>
+        <div class="table-responsive">
+            <table class="table" id="sort-table2">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">員工編號</th>
+                        <th data-sortable="true">姓名</th>
+                        <th data-sortable="true">日期</th>
+                        <th data-sortable="true">開始時間</th>
+                        <th data-sortable="true">結束時間</th>
+                        <th data-sortable="true">合計</th>
+                        <th data-sortable="true">備註</th>
+                        <th data-sortable="true">狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OT)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.startTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.expectTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.overtimeHours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="showT3" style="display:none">
+        <h3>經費申請查詢</h3>
+        <div class="table-responsive">
+            <table class="table" id="sort-table3">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">員工編號</th>
+                        <th data-sortable="true">姓名</th>
+                        <th data-sortable="true">項目</th>
+                        <th data-sortable="true">費用</th>
+                        <th data-sortable="true">備註</th>
+                        <th data-sortable="true">狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.budget)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.applicationAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="showT4" style="display:none">
+        <h3>補打卡查詢</h3>
+        <div class="table-responsive">
+            <table class="table" id="sort-table4">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">員工編號</th>
+                        <th data-sortable="true">姓名</th>
+                        <th data-sortable="true">日期</th>
+                        <th data-sortable="true">上班打卡</th>
+                        <th data-sortable="true">下班打卡</th>
+                        <th data-sortable="true">備註</th>
+                        <th data-sortable="true">狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.repunch)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.repunchdate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.repunchTimeIn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.repunchTimeOut)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
+<script src="~/Scripts/Form/buttonShow.js"></script>
+
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/colResizable/colResizable-1.6.min.js"></script>
+<script src="~/Scripts/table_ALL/BStable.js"></script>
+
+@if (Session["mypost"] != null)
+{
+    <script>
+        Swal.fire({
+            heightAuto: false,
+            title: "表單申請成功",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000
+        })
+            // setTimeout(() => { document.location.href = "/Clockin/Index" }, 1000)
+    </script>
+    Session["mypost"] = null;
+}

@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    @* JQ3.4.1 *@
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    @* bs4 *@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    @* table *@
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+    <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css"
+          rel="stylesheet">
+    <script src="~/Scripts/colResizable/colResizable-1.6.min.js"></script>
+    <script src="~/Scripts/bootstrap-table.min.js"></script>
+    @* icon *@
+    <link href="~/Scripts/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet" />
+    @* sweetalert *@
+    <script src="~/Scripts/sweetaleat/sweetalert2@11.js"></script>
+    @*Layout css*@
+    <link href="~/Content/Layoutcss.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />*@
+    <style>
+        .navbar-fixed-left {
+            width: 140px;
+            position: fixed;
+            border-radius: 0;
+            height: 100%;
+        }
+
+            .navbar-fixed-left .navbar-nav > li {
+                float: none; /* Cancel default li float: left */
+                width: 139px;
+            }
+
+            .navbar-fixed-left + .container {
+                padding-left: 160px;
+            }
+
+            /* On using dropdown menu (To right shift popuped) */
+            .navbar-fixed-left .navbar-nav > li > .dropdown-menu {
+                margin-top: -50px;
+                margin-left: 140px;
+            }
+
+        .swal2-container {
+            height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    @if (Session["ID"] == null)
+    {
+        Response.Redirect("~/Login/Logout");
+    }
+    <div class="navbar navbar-expand-md navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <a href="/Home/index" class="navbar-brand"><b>EIP系統</b></a>
+            <!-- 縮排成漢堡鈕 -->
+            <div class="nav-item dropdown float-right">
+                <a class="nav-link dropdown-toggle pull-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    @*<img src="~/Content/img/people.png"
+                        style="width: 30px;height: 25px;">*@
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right p-3 text-muted" aria-labelledby="navbarDropdown"
+                     style="max-width: 15rem; ">
+                    <p class="mb-0">使用者 :</p>
+                    <p class="">@Session["Name"] @Session["ID"]</p>
+                    <p class="mb-0">部門資訊 :</p>
+                    <p class="">@Session["Dep"]@Session["Pos"]</p>
+                    <p>@Html.ActionLink("登出", "Logout", "Login", new { }, new { @class = "dropdown-item btn btn-FB", style = "text-align:center;" })</p>
+                </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                    style="padding:15px,20px">
+                @*<span class="navbar-toggler-icon"></span>*@
+                @*<i class="fa fa-camera-retro"></i>*@
+                <i class="fas fa-bars text-light" style="font-size:1.8rem"></i>
+            </button>
+            <div class="navbar-collapse collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">打卡<span class="sr-only">(current)</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("打卡", "Index", "Clockin", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("出缺勤紀錄查詢", "Search", "Clockin", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+
+                    @if (Convert.ToString(Session["PosID"]) == "0")
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("審核申請", "Approve", "Form", new { }, new { @class = "nav-link" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                表單申請
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @Html.ActionLink("申請紀錄查詢", "Search", "Form", new { }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("公差請假單", "Leave", "Form", new { }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("加班單", "Overtime", "Form", new { }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("補卡申請", "rePunch", "Form", new { }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("經費申請", "Funding", "Form", new { }, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
+                    }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">工作管家</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("留言板", "MsgIndex", "Message", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("代辦事項", "Todolist", "Worklog", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("行事曆", "Calendar", "Worklog", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">訂餐系統</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("訂餐首頁", "Index", "Ordermeal", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("管理訂單", "MyOrder", "Ordermeal", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                    @*<li class="nav-item">
+                        @Html.ActionLink("訂餐系統", "Index", "Ordermeal", new { }, new { @class = "nav-link" })
+                    </li>*@
+                    <li class="nav-item">
+                        @Html.ActionLink("小遊戲", "Games", "Game", new { }, new { @class = "nav-link" })
+                    </li>
+                    @*<li class="nav-item">
+            @Html.ActionLink("帳戶設定", "About", "Home", new { }, new { @class = "nav-link" })
+        </li>*@
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">帳戶</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("修改密碼", "ChangePsw", "Home", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("查看聯絡人資訊", "Contact", "Home", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                    <li class="nav-item" style="color: snow;">
+                        <a id="times" class=" nav-time" style="">時間讀取中..</a>
+                        @*<div style="color: snow;"></div>
+            <div  style="color: snow;"></div>*@
+                    </li>
+                </ul>
+            </div>
+            <!-- 新增使用者資訊 -->
+        </div>
+        <!-- 使用者資訊結束 -->
+    </div>
+    <div class="container-xl bg-container shadow-lg con-height">
+        @RenderBody()
+    </div>
+    <footer style="display:block">
+        <div>
+            <div class="footer">
+                Copyright © 2021 SMIT14 team3 All right reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="~/Scripts/Layout/timer.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+</body>
+</html>

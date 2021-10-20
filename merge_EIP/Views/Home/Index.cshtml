@@ -1,0 +1,217 @@
+﻿@model merge_EIP.Models.HomeClass
+
+@{
+    ViewBag.Title = "首頁";
+}
+
+<link href="~/Content/Home.css" rel="stylesheet" />
+<link href="~/Content/Tooltip.css" rel="stylesheet" />
+<div class="container p-33">
+    @*<h2>首頁</h2>
+        <hr />*@
+    <br />
+    @*<br />*@
+    <marquee direction="right" height="30" scrollamount="6" style="color:Highlight;">防疫期間請配戴口罩，勤洗手，保持社交距離。</marquee>
+    <div class="row ">
+        <div class="col-6 col-md-6 col-xl-3 home-margin">
+            @if (Convert.ToString(Session["PosID"]) == "3")
+            {
+                <div class="col-12 home-btn p-3 shadow-sm" style="background-color: var(--yellowColor)" onclick="document.location.href='/Clockin/Search'">
+                    <div class="home-row home-con">
+                        <i class="fas fa-clock home-iconsize"></i>
+                        <div>今日尚未打卡<div class="home-btn-main">@ViewBag.clockin 人</div></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-12 home-btn p-3 shadow-sm" style="background-color: var(--yellowColor)" onclick="document.location.href='/Clockin'">
+                    <div class="home-row home-con">
+                        <i class="fas fa-clock home-iconsize"></i>
+                        <div>今日打卡狀態<div class="home-btn-main">@ViewBag.clockin</div></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-6 col-md-6 col-xl-3 home-margin">
+            @if (Convert.ToString(Session["PosID"]) == "0")
+            {
+                <div class="col-12 home-btn p-3" style="background-color: var(--blueColor)" onclick="document.location.href='/Form/Approve'">
+                    <div class="home-row">
+                        <div><i class="fas fa-file-alt home-iconsize"></i></div>
+                        <div>待審核表單<div class="home-btn-main">@ViewBag.form 筆</div></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-12 home-btn p-3" style="background-color: var(--blueColor)" onclick="document.location.href='/Form/Search'">
+                    <div class="home-row">
+                        <div><i class="fas fa-file-alt home-iconsize"></i></div>
+                        <div>審核中表單<div class="home-btn-main">@ViewBag.form 筆</div></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-6 col-md-6 col-xl-3 home-margin">
+            <div class="col-12 home-btn p-3" style="background-color: var(--redColor)" onclick="document.location.href='/Worklog/Todolist'">
+
+                <div class="home-row">
+                    <div><i class="fas fa-clipboard-list home-iconsize"></i></div>
+                    <div>今日待辦事項<div class="home-btn-main">@ViewBag.todolist 筆</div></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-xl-3 home-margin">
+            <div class="col-12 home-btn p-3" style="background-color: var(--greenColor)" onclick="document.location.href='/Ordermeal'">
+
+                <div class="home-row">
+                    <div><i class="fas fa-hamburger home-iconsize"></i></div>
+                    <div>開放中訂餐<div class="home-btn-main">@ViewBag.order 團</div></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row" style=" padding-left: 7.5px; padding-right: 7.5px ">
+
+        @*這邊放袋子們*@
+        @*<div class="col-12 col-md-6 col-xl-4 home-margin">
+                <div class="col-12 home-Msg bg-danger">
+                    輪播公告
+                </div>
+            </div>*@
+        <div class="col-12 col-md-6 col-xl-7 home-margin p-4 shadow" style="padding: 1.5rem !important; background-color: rgb(128 128 128/0.05); ">
+
+
+            <div class="col-12 home-Msg">
+                <h3 style="text-align:center;">未確認留言</h3>
+                <div class="h-50 home-Msgoverflow">
+                    <ul class="list-group list-group-flush shadow-sm">
+                        @foreach (var item in Model.lMsgBd)
+                        {
+                            var checkMsg = item.watchCount.Where(x => x.messageboardNumber == item.messageboardNumber).FirstOrDefault();
+                            if (checkMsg != null)
+                            {
+                                if (checkMsg.watchState == false)
+                                {
+                                    <li class="list-group-item">
+                                        <div class="float-left">
+                                            @if (item.goTop)
+                                            {
+                                                <i class="fas fa-level-up-alt head-text-color w3s-tooltip text-secondary"><span class="w3s-tooltiptext">留言置頂</span></i>
+                                            }
+                                            @if (item.toCalendar)
+                                            {
+                                                <i class="far fa-calendar-alt head-text-color w3s-tooltip text-secondary" style="margin:0rem 0rem 0rem 0.5rem">
+                                                    <span class="w3s-tooltiptext">指派至行事曆</span>
+                                                </i>
+                                            }
+                                        </div>
+                                        <span class="float-right" title="發布時間">@item.messageDate.ToString("yyyy-MM-dd")</span>
+                                        <a href="/Message/MsgIndex/@item.messageboardNumber" class="home-msgtext" title="@item.Employee.Department.departmentName@item.Employee.Position.positionName @item.Employee.Name 給:@item.State">@item.messageTitle</a>
+                                    </li>
+                                }
+                            }
+                        }
+                        @*<li class="list-group-item">
+                                <i class="fas fa-level-up-alt head-text-color w3s-tooltip text-secondary"><span class="w3s-tooltiptext">留言置頂</span></i>
+                                <i class="far fa-calendar-alt head-text-color w3s-tooltip text-secondary" style="margin:0rem 0rem 0rem 0.5rem">
+                                    <span class="w3s-tooltiptext">指派至行事曆</span>
+                                </i>
+                                <a href="" class="home-msgtext">內文 </a>
+                            </li>*@
+                    </ul>
+                </div>
+                @{
+                    string PosID = Convert.ToString(Session["PosID"]);
+                }
+                @if (PosID == "1")
+                {
+                    <h3 style="text-align:center;">表單通知</h3>
+                    <div class="h-50 home-Msgoverflow">
+                        <ul class="list-group list-group-flush shadow-sm">
+                            @if (Model.leave != null)
+                            {
+                                foreach (var item in Model.leave)
+                                {
+                            <li class="list-group-item">
+                                <a href="/Home/check?type=請假&num=@item.dayoffNumber"><i class="fas fa-times text-secondary home-close"></i></a>
+                                <span class="home-msgtext">@item.Auditdate</span>
+                                <a href="/Form/Search" class="home-msgtext">公差請假單 已<span>@item.State</span></a>
+                            </li>
+                                }
+                            }
+                            @if (Model.OT != null)
+                            {
+                                foreach (var item in Model.OT)
+                                {
+                                    <li class="list-group-item">
+                                        <a href="/Home/check?type=加班&num=@item.overtimeNumber"><i class="fas fa-times text-secondary home-close"></i></a>
+                                        <span class="home-msgtext">@item.Auditdate</span>
+                                        <a href="/Form/Search" class="home-msgtext">加班單 已<span>@item.State</span></a>
+                                    </li>
+                                }
+                            }
+                            @if (Model.repunch != null)
+                            {
+                                foreach (var item in Model.repunch)
+                                {
+                        <li class="list-group-item">
+                            <a href="/Home/check?type=補卡&num=@item.repunchID"><i class="fas fa-times text-secondary home-close"></i></a>
+                            <span class="home-msgtext">@item.Auditdate</span>
+                            <a href="/Form/Search" class="home-msgtext">補卡單 已<span>@item.State</span></a>
+                        </li>
+                                }
+                            }
+                            @if (Model.budget != null)
+                            {
+                                foreach (var item in Model.budget)
+                                {
+                                    <li class="list-group-item">
+                                        <a href="/Home/check?type=經費&num=@item.applicationNumber"><i class="fas fa-times text-secondary home-close"></i></a>
+                                        <span class="home-msgtext">@item.Auditdate</span>
+                                        <a href="/Form/Search" class="home-msgtext">經費申請 已<span>@item.State</span></a>
+                                    </li>
+                                }
+                            }
+                            @*<li class="list-group-item">
+                                <i class="fas fa-times text-secondary home-close"></i>
+                                <span class="home-msgtext">2021-10-03</span>
+                                <a href="" class="home-msgtext">請假單 已同意</a>
+                            </li>*@
+                            @*<li class="list-group-item">
+                                <i class="fas fa-times text-secondary home-close"></i>
+                                <span class="home-msgtext">2021-10-01</span>
+                                <a href="" class="home-msgtext">請假單 已退回</a>
+                            </li>*@
+                        </ul>
+                    </div>
+                }
+            </div>
+
+
+        </div>
+        <div class="col-12 col-md-6 col-xl-5 home-margin shadow" style="padding: 1.5rem 0.4rem !important; background-color: rgb(128 128 128/0.1); ">
+            <div class="col-12 home-Msg">
+                <h3 style="text-align:center;"><a href="/Worklog/Calendar" style="color: #212529;" title="查看完整行事曆">本月行事曆</a></h3>
+                <br />
+                <iframe src="/Worklog/Calendarsmall" style="border: 0; width: 100%; height:400px" frameborder="0" scrolling="no"></iframe>
+                @*<a class="float-right p-3" href="">查看完整行事曆</a>*@
+                <br />
+                @*<iframe src="https://calendar.google.com/calendar/embed?src=zh-tw.taiwan%23holiday%40group.v.calendar.google.com&ctz=Asia%2FTaipei" style="border: 0" height="350" frameborder="0" scrolling="no"></iframe>*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    @*$(".w3s-tooltip").hover(() => {
+        $(".home-Msgoverflow").css("overflow", "inherit");
+    }, () => {
+        $(".home-Msgoverflow").css("overflow", "auto");
+    })*@
+</script>

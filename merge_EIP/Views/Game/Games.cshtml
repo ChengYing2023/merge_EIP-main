@@ -1,0 +1,98 @@
+﻿@model merge_EIP.Models.gameScoreAll
+@{ ViewBag.Title = "小遊戲"; }
+<link href="~/Content/gameStyle.css" rel="stylesheet" />
+
+<div id="EID" style="display:none">@Session["ID"]</div>
+<div class="container p-33">
+    <br>
+    <h2>小遊戲</h2>
+    <hr>
+    @*跑跑方塊人*@
+    <div class="row shaow-game m-md-3">
+
+        <div class="col-12 col-md-6 p-3">
+            <div style="position:relative">
+                <div style="max-height: 400px; overflow: hidden;">
+                    <img src="~/Content/images/index/Rshow.gif" alt="Avatar" class="image game-img">
+                </div>
+                <div class="overlay">
+                    <div class="text">
+                        <div class="gameTitle">跑跑方塊人</div>
+                        <div class="gameText">
+                            遊戲操作說明<br />
+                            （１）電腦模式：使用鍵盤方向鍵（↑）。<br />
+                            （２）手機模式：點擊屏幕進行跳躍障礙物。
+                        </div>
+                        <button onclick="RungameShow()" class="btn btn-FB play-btn">Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* 這裡要放排行榜 *@
+        <div class="col-12 col-md-6 p-3">
+            <div class="col-12">
+                <h3 class="text-center">排行榜</h3>
+                <ul class="list-group list-group-flush text-center">
+                    @{ int cntR = 1; }
+                    @foreach (var item in Model.runScoreAll)
+                    {
+        <li class="list-group-item">
+            <b>第 @cntR 名</b>
+            <span style="padding:0 1.5rem; "> @item.Employee.Name.Substring(0, 1)**</span>
+            <span class="text-info">@item.Fraction </span>分
+        </li>cntR++;
+                    }
+                    @*@item.Employee.Department.departmentName@item.Employee.Position.positionName*@
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row shaow-game m-md-3">
+        <div class="col-12 col-md-6 p-3">
+            <div style="position:relative">
+                <div style="max-height: 400px; overflow: hidden;">
+                    <img src="~/Content/images/index/Sshow.gif" alt="Avatar" class="image game-img">
+                    <div class="overlay ">
+                        <div class="text">
+                            <div class="gameTitle">貪吃貓</div>
+                            <div class="gameText">
+                                遊戲操作說明<br />
+                                （１）電腦模式：使用鍵盤方向鍵（←）與（→）。<br />
+                                （２）手機模式：點擊屏幕左右兩側，進行方向控制。
+                            </div>
+                            <button onclick="snykebtn()" class="btn btn-FB play-btn">Play</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* 這裡要放排行榜 *@
+        <div class="col-12 col-md-6 p-3">
+            <div class="col-12">
+                <h3 class="text-center">排行榜</h3>
+                <ul class="list-group list-group-flush text-center">
+                    @{ int cntS = 1; }
+                    @foreach (var item in Model.snakeScoreAll)
+                    {
+        <li class="list-group-item">
+            <b>第 @cntS 名</b>
+            <span style="padding:0 1.5rem; "> @item.Employee.Name.Substring(0, 1)**</span>
+            <span class="text-info">@item.Fraction </span>分
+        </li>cntS++;
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>
+<br>
+<br>
+<script src="~/Scripts/gameJS/phaser.min.js"></script>
+<script src="~/Scripts/gameJS/runGame.js"></script>
+<script src="~/Scripts/gameJS/snakegmae.js"></script>
+<script>
+    $('#sort-table').bootstrapTable();
+</script>

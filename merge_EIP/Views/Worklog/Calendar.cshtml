@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "行事曆";
+
+}
+
+
+<link href="~/Content/Tooltip.css" rel="stylesheet" />
+<link href="~/Scripts/FullCalendar/main.min.css" rel="stylesheet" />
+<script src="~/Scripts/FullCalendar/main.min.js"></script>
+
+<style>
+    html,body{
+        @*height:auto;*@
+    }
+    .fc-view-harness {
+        box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+    }
+    .text-noLine {
+        text-decoration: line-through;
+    }
+
+    .text-overhide {
+        text-overflow: ellipsis;
+    }
+
+    .fc-daygrid-event-harness {
+        cursor: pointer;
+    }
+</style>
+<div class="container p-33">
+    <br />
+    <span id="EID" style="display:none">@Session["ID"]</span>
+    <span id="DepID" style="display:none">@Session["DepID"]</span>
+
+    <div id="calendar" class=""></div>
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
+
+@* 要使用hover 就要載入這兩個套件 *@
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+
+<script>
+    $(document).ready(() => {
+        console.log("ready");
+
+        const EID = $("#EID").text();
+        const DepID = $("#DepID").text();
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/api/WorklogCalAPI" + encodeURI(`?EID=${EID}&DepID=${DepID}`), true);
+        xhttp.send();
+        // 要取得JSON要等他load完才拿得到
+        xhttp.onload = () => {
+            // 解析API回傳JSON
+            dataShow = JSON.parse(xhttp.responseText);
+            console.log(dataShow);
+            calshowrender(dataShow);
+            $(".fc-event-title").addClass("text-overhide");
+        }
+    });
+
+    function calshowrender(dataList) {
+        var calendarEl = document.getElementById("calendar");
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            height: 'auto',
+            headerToolbar: {
+                left: "title",
+                center: "",
+                right: "prev,next today",
+            },
+            businessHours: true, // display business hours
+            selectable: true,
+            titleFormat: {
+                year: "numeric",
+                month: "2-digit",
+            },
+            dateClick: function (info) {
+                // 點擊格子
+            },
+            eventClick: function (info) {
+
+                // 如果藏的類別是 留言板 轉跳到 該留言，如果是 待辦事項 就轉跳 該待辦
+                if (info.event._def.extendedProps.state == "留言板") {
+                    document.location.href = `/Message/MsgIndex/${info.event._def.extendedProps.num}`
+                } else if (info.event._def.extendedProps.state == "待辦事項") {
+                    document.location.href = `/Worklog/Todolist/${info.event._def.extendedProps.num}`
+                }
+            },
+            // 使用 bootstrap 做為樣式
+            themeSystem: "bootstrap",
+
+            // 表頭
+            eventDidMount: function (eventInfo) {
+                @*var tooltip = new Tooltip(eventInfo.el, {
+                    title: eventInfo.event._def.extendedProps.state,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });*@
+                console.log(eventInfo)
+                $(eventInfo.el).tooltip({
+                    title: eventInfo.event._def.title,
+                    html: true,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });
+            },
+
+            // 放入data顯示
+            events: dataList,
+            // 改點點樣式
+            eventDisplay: "list-item",
+        });
+
+        calendar.render();
+    }
+</script>

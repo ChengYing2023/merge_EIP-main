@@ -1,0 +1,226 @@
+﻿:root {
+    /*    --mainColor: #3b5998;*/
+    --mainColor: rgb(53 75 105);
+    --NFmainColor: rgb(53 75 105);
+    /*    --mainColorhover: #263960;*/
+    --mainColorhover: rgb(80 113 158);
+    --bodyBG: rgb(228 228 228);
+    --containerBG: rgb(248 249 250);
+    --navTimeColor: #fff;
+    --navColor: #fff;
+    --footerColor: #fff;
+    --blueColor: rgb(65 139 202/0.85);
+    --greenColor: rgb(28 176 154/0.85);
+    --redColor: rgb(217 84 79/0.85);
+    --yellowColor: rgb(237 174 79/0.85);
+}
+
+
+
+.container-xl {
+    max-width: 1300px;
+}
+
+.container {
+    max-width: 1300px;
+}
+
+body::-webkit-scrollbar {
+    /*    display: none;*/
+}
+
+html {
+    /*    overflow: -moz-hidden-unscrollable;*/
+    /*    height: 100%;*/
+}
+
+body {
+    /* 底變白 */
+    /*    background-color: rgb(255 255 255 / 0.7);
+    background-blend-mode: screen;*/
+    /* 底變深 */
+    background-color: rgb(0 0 0 / 0.35);
+    background-blend-mode: darken;
+    background-image: url(img/office.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+/*    padding-bottom:45.5px;*/
+}
+
+.con-height {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    padding-bottom: 5rem;
+}
+
+.bg-container {
+    background-color: var(--containerBG);
+}
+
+/* 隱藏滾動條 但還能滾動 */
+/*chrome 和Safari*/
+.con-height::-webkit-scrollbar {
+    width: 0 !important
+}
+/*IE 10+*/
+.con-height {
+    -ms-overflow-style: none;
+}
+/*Firefox*/
+.con-height {
+    overflow: -moz-scrollbars-none;
+}
+/* 隱藏滾動條 但還能滾動 */
+
+@media screen and (min-width: 800px) {
+    .p-33 {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+}
+
+.btn-FB {
+    background-color: var(--mainColor);
+    border: var(--mainColor);
+    color: white;
+}
+
+    .btn-FB:hover {
+        background-color: var(--mainColorhover);
+        border: var(--mainColorhover);
+        color: white;
+    }
+
+table {
+    white-space: nowrap;
+}
+
+.table td {
+    border-right: 1px solid transparent !important;
+    border-left: 1px solid transparent !important;
+    border-top: 1px solid transparent !important;
+}
+
+.table th {
+    border-right: 1px solid transparent !important;
+    border-left: 1px solid transparent !important;
+    border-top: 1px solid transparent !important;
+}
+
+.navbar {
+    background-color: var(--NFmainColor);
+    color: var(--navColor);
+    /* 浮動 */
+    /*    position: fixed;
+    width: 100%;
+    z-index: 3;*/
+}
+
+.container-xl {
+    /*    top: 55px;*/
+}
+
+.navbar-toggler {
+    /*    background-color: var(--mainColor);*/
+    width: 5rem;
+    height: 2.5rem;
+    padding: 1rem,3rem;
+}
+
+.nav-time {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    color: var(--navTimeColor);
+    text-align: center;
+    display: block;
+    padding: 0.5rem 1rem;
+}
+
+    /* 時間nav */
+    .nav-time:hover {
+        color: var(--navTimeColor);
+        text-decoration: none;
+    }
+
+.nav-link {
+    color: var(--navColor);
+    text-align: center;
+}
+
+    /* 整個nav */
+    .nav-link:hover {
+        color: var(--mainColorhover);
+        /*        color: var(--mainColorhover);*/
+        /*        color: white;*/
+        /*        text-shadow: 2px 2px 15px var(--mainColorhover);*/
+        /*        box-shadow: 0px 0px 8px var(--mainColorhover);*/
+        /*        border-radius: 5px;*/
+        /*        font-weight:bold;*/
+        /*        background-color: var(--mainColorhover);*/
+    }
+.navbar-brand {
+    color: var(--navColor);
+}
+
+    .navbar-brand:hover {
+        color: var(--mainColorhover);
+    }
+
+.nav-item + nav-link {
+    color: var(--navColor);
+}
+
+/* 下拉選單按下去 */
+.dropdown-item:active {
+    background-color: var(--mainColor);
+}
+
+/* 下方底部欄位 */
+.footer {
+    position: fixed;
+    /*    left: 0;*/
+    font-size: 0.9rem;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--NFmainColor);
+    color: var(--footerColor);
+    text-align: center;
+    z-index: 2;
+    padding: 0.75rem;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background-color: var(--mainColor);
+    border-color: var(--mainColor);
+}
+
+    .btn-primary:hover {
+        background-color: var(--mainColorhover);
+        border-color: var(--mainColorhover);
+    }
+
+    .btn-primary:active {
+        background-color: var(--mainColorhover);
+        border-color: var(--mainColorhover);
+    }
+
+    .btn-primary.disabled, .btn-primary:disabled {
+        background-color: var(--mainColor);
+        border-color: var(--mainColor);
+    }
+
+.page-item.active .page-link {
+    background-color: var(--mainColor);
+    border-color: var(--mainColor);
+}
